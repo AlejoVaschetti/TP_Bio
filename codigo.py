@@ -1,4 +1,4 @@
-# a1) Codigo: que sea un numero
+# a1) Codigo: que sea un numero                            x != x
 # a2) Codigo del pais que este entre esos codigos
 # b1) estando
 # b2) Formato ok
@@ -152,7 +152,7 @@ bc1 = ok_años_dif
 isna_etnic = [i for i in df.iloc[:,3] == df.iloc[:,3]]
 print(f"Hay {len(df) - sum(isna_etnic)} datos faltantes de la etnia")
    
- d1 = isna_etnic
+d1 = isna_etnic
     
 # isna_etnic_pos = []
 # for i in range(len(df)):
@@ -285,8 +285,11 @@ for i in range(len(df)):
          
 print(f"Hay {sum(paisbien)} codigos de paises mal cargados en el numero de sujeto")
 
-h4 = [not i for i in paisbien] 
+h4 = [not i for i in paisbien]
 
+matriz_valores = [a1, a2, b1, b2, b3, c1,c2,c3,bc1,d1,d2,e1,e2,f1,f2,g1,g2,h1,h2,h3,h4]
+paciente_limpio = [all(valores) for valores in zip(*matriz_valores)]
+print(sum(paciente_limpio))
 
 
 
