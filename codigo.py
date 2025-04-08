@@ -23,7 +23,7 @@ import numpy as np
 import re
 from dateutil.relativedelta import relativedelta
 
-df = pd.read_excel("adm.xlsx")
+df = pd.read_excel("adm.xlsx", dtype={"subjectnumber" : str})
 dd = pd.read_excel("dd.xlsx")
 
 ######################### Reglas con condiciones a)
@@ -122,8 +122,132 @@ for i in range(len(df)):
 print(f"Hay {len(ok_años_dif) - sum(ok_años_dif)} mujeres que supuestamente no están en una edad fértil o no ingresaron al estudio por ser menores")
 
 
+############################################### Regla d1)
+
+isna_etnic = [i for i in df.iloc[:,3] == df.iloc[:,3]]
+print(f"Hay {len(df) - sum(isna_etnic)} datos faltantes de la etnia")
+    
+# isna_etnic_pos = []
+# for i in range(len(df)):
+#     if df.iloc[i,3] != df.iloc[i,3]:
+#         isna_etnic_pos.append([i,df.iloc[i,1]])
 
 
+
+############################################### Regla d2)
+
+etnic_ok = []
+etnica_nice = {1,2,3,4}
+
+for i in range(len(df)):
+    etnic_ok.append(etnica_nice.isdisjoint({df.iloc[i,3]}))
+
+print(f"Hay {sum(etnic_ok) - len(df) + sum(isna_etnic)} etnias cargadas de manera incorrecta")
+
+
+############################################### Regla e1)
+
+isna_scr = [i for i in df.iloc[:,4] == df.iloc[:,4]]
+print(f"Hay {len(df) - sum(isna_scr)} datos faltantes del formulario scr")
+    
+# isna_scr_pos = []
+# for i in range(len(df)):
+#     if df.iloc[i,4] != df.iloc[i,4]:
+#         isna_scr.append([i,df.iloc[i,1]])
+
+
+
+
+############################################### Regla e2)
+
+scr_ok = []
+scr_nice = {1,2}
+
+for i in range(len(df)):
+    scr_ok.append(scr_nice.isdisjoint({df.iloc[i,4]}))
+
+print(f"Hay {sum(scr_ok) - len(df) + sum(isna_scr)} formularios mal cargados de scr")
+
+############################################### Regla f1)
+
+isna_usscr = [i for i in df.iloc[:,5] == df.iloc[:,5]]
+print(f"Hay {len(df) - sum(isna_usscr)} datos faltantes del formulario usscr")
+    
+# isna_scr_pos = []
+# for i in range(len(df)):
+#     if df.iloc[i,4] != df.iloc[i,4]:
+#         isna_scr.append([i,df.iloc[i,1]])
+
+
+
+
+############################################### Regla f2)
+
+usscr_ok = []
+usscr_nice = {1,2}
+
+for i in range(len(df)):
+    usscr_ok.append(usscr_nice.isdisjoint({df.iloc[i,5]}))
+
+print(f"Hay {sum(usscr_ok) - len(df) + sum(isna_usscr)} formularios mal cargados de usscr")
+
+
+############################################### Regla g1)
+
+isna_consent = [i for i in df.iloc[:,6] == df.iloc[:,6]]
+print(f"Hay {len(df) - sum(isna_consent)} datos faltantes del formulario de consentimiento")
+    
+# isna_scr_pos = []
+# for i in range(len(df)):
+#     if df.iloc[i,4] != df.iloc[i,4]:
+#         isna_scr.append([i,df.iloc[i,1]])
+
+
+############################################### Regla g2)
+
+consent_ok = []
+consent_nice = {1,2}
+
+for i in range(len(df)):
+    consent_ok.append(consent_nice.isdisjoint({df.iloc[i,6]}))
+
+print(f"Hay {sum(consent_ok) - len(df) + sum(isna_consent)} formularios mal cargados de consentimiento")
+
+
+############################################### Regla h1)
+
+subj_ok = []
+subj_ok2 = []
+subj_ok3 = []
+isna_subj = [i for i in df.iloc[:,7] == df.iloc[:,7]]
+for i in range(len(df)):
+    subj_ok.append(True)
+    subj_ok2.append(True)
+    subj_ok3.append(True)
+    if df.iloc[i,7] == df.iloc[i,7] and len(str(df.iloc[i,7])) == 9 and str(df.iloc[i,7]).isnumeric():
+        subj_ok3[i] = False 
+    if df.iloc[i,4] == 2 and df.iloc[i,5] == 2 and df.iloc[i,6] == 2 and df.iloc[i,7] != df.iloc[i,7]:
+       subj_ok[i] = False
+    elif (df.iloc[i,4] == 1 or df.iloc[i,5] == 1 or df.iloc[i,6] == 1) and df.iloc[i,7] == df.iloc[i,7]:
+        subj_ok2[i] = False
+
+
+
+print(f"Hay {len(df) - sum(subj_ok)} numeros de sujetos que tendrian que ser cargados")
+print(f"Hay {len(df) - sum(subj_ok2)} numeros de sujetos que no tendrian que ser cargados, \n por lo tanto no participaron del estudio por no cumplir alguno de los requisitos requeridos")
+print(f"Hay {len(df) -sum(isna_subj) - sum(subj_ok3)} mal cargados")
+
+
+############################################### Regla h2)
+
+paisbien = []
+for i in range(len(df)):
+    if df.iloc[i,7] == df.iloc[i,7]:
+        paisbien.append({df.iloc[i,0]}.isdisjoint({int(df.iloc[i,7][0:3])}))
+         
+print(f"Hay {sum(paisbien)} codigos de paises mal cargados en el numero de sujeto")
+     
+print(paisbien.index(True))
 
 
 
