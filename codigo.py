@@ -31,6 +31,8 @@ dd = pd.read_excel("dd.xlsx")
 isna_country = [i for i in df.iloc[:,0] == df.iloc[:,0]]
 print(f"Hay {len(isna_country) - sum(isna_country)} mujeres a las que no le cargaron el código del país")
 
+a1 = isna_country
+
 r1num = {int(s) for s in re.findall('\d+',dd.iloc[0,-1])}
 countrycode_nice = list()
 for i in range(len(df)):
@@ -38,10 +40,16 @@ for i in range(len(df)):
 
 print(f"Hay {sum(countrycode_nice)} mujeres con un código de país incorrecto")
 
+a2 = [not i for i in countrycode_nice]
+
+
 ############################ Reglas con condiciones b)
 
 isna_birth = [i for i in df.iloc[:,1] == df.iloc[:,1]]
 print(f"Hay {len(isna_birth) - sum(isna_birth)} mujeres a las que no le cargaron el id del paciente")
+
+b1 = isna_birth
+
 
 largoid = list()
 for i in range(len(df)):
@@ -50,6 +58,10 @@ for i in range(len(df)):
         largoid[i] = df.iloc[i,1][0:2].isnumeric() and df.iloc[i,1][3:5].isnumeric() and df.iloc[i,1][6:10].isnumeric() and df.iloc[i,1][2] == "/" and df.iloc[i,1][5] == "/" and df.iloc[i,1][10] == "-" and df.iloc[i,1][11:13].isupper()
         
 print(f"Hay {len(largoid) - sum(largoid)} mujeres a las que no le cargaron bien el formato del id del paciente")
+
+b2 = largoid
+
+
 
 fecha_birth = np.zeros((len(df), 3), dtype=int)
 for i in range(len(df)):
@@ -72,10 +84,15 @@ for i in range(len(df)):
 
 print(f"Hay {len(df) - sum(fecha_ok)} fechas incorrectas en el id")
 
+b3 = fecha_ok
+
+
 ################################### Reglas con condiciones c)
 
 isna_inter = [i for i in df.iloc[:,2] == df.iloc[:,2]]
 print(f"Hay {len(isna_inter) - sum(isna_inter)} mujeres a las que no le cargaron la fecha de la entrevista")
+
+c1 = isna_inter
 
 largo_inter = list()
 for i in range(len(df)):
@@ -83,7 +100,10 @@ for i in range(len(df)):
     if largo_inter[i]:
         largo_inter[i] = df.iloc[i,1][0:2].isnumeric() and df.iloc[i,1][3:5].isnumeric() and df.iloc[i,1][6:10].isnumeric() and df.iloc[i,1][2] == "/" and df.iloc[i,1][5] == "/"
 
-print(f"Hay {len(largoid) - sum(largoid)} mujeres a las que no le cargaron bien la fecha de la entrevista")
+print(f"Hay {len(largo_inter) - sum(largo_inter)} mujeres a las que no le cargaron bien la fecha de la entrevista")
+
+c2 = largo_inter
+
 
 fecha_inter = np.zeros((len(df), 3), dtype=int)
 for i in range(len(df)):
@@ -102,10 +122,15 @@ for i in range(len(df)):
             
 print(f"Hay {len(df) - sum(fecha_ok2)} fechas incorrectas de la entrevista")
 
+c3 = fecha_ok2
+
+
 ############################################### Regla entre b) y c)
 # ################# Trabajar con formato fecha
 fecha_int_formato = pd.to_datetime(df['interview'], format='%d/%m/%Y')
 fecha_birth_formato = pd.to_datetime([i[0:10] for i in df['patientid']], format='%d/%m/%Y')
+
+
 
 # dif_fechas = fecha_formato[0] - fecha_formato[1]
 # print(dif_fechas)
@@ -121,11 +146,13 @@ for i in range(len(df)):
 
 print(f"Hay {len(ok_años_dif) - sum(ok_años_dif)} mujeres que supuestamente no están en una edad fértil o no ingresaron al estudio por ser menores")
 
-
+bc1 = ok_años_dif
 ############################################### Regla d1)
 
 isna_etnic = [i for i in df.iloc[:,3] == df.iloc[:,3]]
 print(f"Hay {len(df) - sum(isna_etnic)} datos faltantes de la etnia")
+   
+ d1 = isna_etnic
     
 # isna_etnic_pos = []
 # for i in range(len(df)):
@@ -144,6 +171,7 @@ for i in range(len(df)):
 
 print(f"Hay {sum(etnic_ok) - len(df) + sum(isna_etnic)} etnias cargadas de manera incorrecta")
 
+d2 = [not i for i in etnic_ok]
 
 ############################################### Regla e1)
 
@@ -155,7 +183,7 @@ print(f"Hay {len(df) - sum(isna_scr)} datos faltantes del formulario scr")
 #     if df.iloc[i,4] != df.iloc[i,4]:
 #         isna_scr.append([i,df.iloc[i,1]])
 
-
+e1 = isna_scr
 
 
 ############################################### Regla e2)
@@ -168,6 +196,8 @@ for i in range(len(df)):
 
 print(f"Hay {sum(scr_ok) - len(df) + sum(isna_scr)} formularios mal cargados de scr")
 
+e2 = [not i for i in scr_ok] 
+
 ############################################### Regla f1)
 
 isna_usscr = [i for i in df.iloc[:,5] == df.iloc[:,5]]
@@ -178,8 +208,7 @@ print(f"Hay {len(df) - sum(isna_usscr)} datos faltantes del formulario usscr")
 #     if df.iloc[i,4] != df.iloc[i,4]:
 #         isna_scr.append([i,df.iloc[i,1]])
 
-
-
+f1 = isna_usscr
 
 ############################################### Regla f2)
 
@@ -191,7 +220,7 @@ for i in range(len(df)):
 
 print(f"Hay {sum(usscr_ok) - len(df) + sum(isna_usscr)} formularios mal cargados de usscr")
 
-
+f2 = [not i for i in usscr_ok] 
 ############################################### Regla g1)
 
 isna_consent = [i for i in df.iloc[:,6] == df.iloc[:,6]]
@@ -202,7 +231,7 @@ print(f"Hay {len(df) - sum(isna_consent)} datos faltantes del formulario de cons
 #     if df.iloc[i,4] != df.iloc[i,4]:
 #         isna_scr.append([i,df.iloc[i,1]])
 
-
+g1 = isna_consent
 ############################################### Regla g2)
 
 consent_ok = []
@@ -213,6 +242,7 @@ for i in range(len(df)):
 
 print(f"Hay {sum(consent_ok) - len(df) + sum(isna_consent)} formularios mal cargados de consentimiento")
 
+g2 = [not i for i in consent_ok] 
 
 ############################################### Regla h1)
 
@@ -234,11 +264,19 @@ for i in range(len(df)):
 
 
 print(f"Hay {len(df) - sum(subj_ok)} numeros de sujetos que tendrian que ser cargados")
+
+h1 = subj_ok
+
 print(f"Hay {len(df) - sum(subj_ok2)} numeros de sujetos que no tendrian que ser cargados, \n por lo tanto no participaron del estudio por no cumplir alguno de los requisitos requeridos")
+
+h2 = subj_ok2
+
 print(f"Hay {len(df) -sum(isna_subj) - sum(subj_ok3)} mal cargados")
 
+h3 = [not i for i in subj_ok3] 
 
-############################################### Regla h2)
+
+############################################### Regla h4)
 
 paisbien = []
 for i in range(len(df)):
@@ -246,8 +284,15 @@ for i in range(len(df)):
         paisbien.append({df.iloc[i,0]}.isdisjoint({int(df.iloc[i,7][0:3])}))
          
 print(f"Hay {sum(paisbien)} codigos de paises mal cargados en el numero de sujeto")
-     
-print(paisbien.index(True))
+
+h4 = [not i for i in paisbien] 
+
+
+
+
+
+
+
 
 
 
