@@ -254,7 +254,7 @@ for i in range(len(df)):
     subj_ok.append(True)
     subj_ok2.append(True)
     subj_ok3.append(True)
-    if df.iloc[i,7] == df.iloc[i,7] and len(str(df.iloc[i,7])) == 9 and str(df.iloc[i,7]).isnumeric():
+    if len(str(df.iloc[i,7])) == 9 and str(df.iloc[i,7]).isnumeric():
         subj_ok3[i] = False 
     if df.iloc[i,4] == 2 and df.iloc[i,5] == 2 and df.iloc[i,6] == 2 and df.iloc[i,7] != df.iloc[i,7]:
        subj_ok[i] = False
@@ -271,7 +271,7 @@ print(f"Hay {len(df) - sum(subj_ok2)} numeros de sujetos que no tendrian que ser
 
 h2 = subj_ok2
 
-print(f"Hay {len(df) -sum(isna_subj) - sum(subj_ok3)} mal cargados")
+print(f"Hay {len(df) - sum(isna_subj) - sum(subj_ok3)} que no estan en el rango")
 
 h3 = [not i for i in subj_ok3] 
 
@@ -292,11 +292,22 @@ paciente_limpio = [all(valores) for valores in zip(*matriz_valores)]
 print(sum(paciente_limpio))
 
 
+print(pd.DataFrame(data=[[len(a1)-sum(a1), len(a2)-sum(a2), "-"],
+                         [len(b1)-sum(b1), len(b2)-sum(b2) + len(df) - sum(fecha_ok), len(ok_años_dif) - sum(ok_años_dif)],
+                         [len(c1)-sum(c1), len(c2)-sum(c2) + len(df) - sum(fecha_ok2), len(ok_años_dif) - sum(ok_años_dif)],
+                         [len(d1)-sum(d1), len(d2)-sum(d2), "-"],
+                         [len(e1)-sum(e1), sum(scr_ok) - len(df) + sum(isna_scr), "-"],
+                         [len(f1)-sum(f1), sum(usscr_ok) - len(df) + sum(isna_usscr), "-"],
+                         [len(g1)-sum(g1), sum(consent_ok) - len(df) + sum(isna_consent), "-"],
+                         [len(h1)-sum(h1), len(df) - sum(isna_subj) - sum(subj_ok3) ,len(h2)-sum(h2) + sum(paisbien)]]))
 
 
 
+print(h1.index(False, 16))
+print(h2.index(False))
+print(h3.index(False, 16))
+print(h4.index(False))
 
+print(len(set(df.iloc[:,7])))
 
-
-
-
+print("No hay distintos")
