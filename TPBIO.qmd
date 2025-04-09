@@ -1,0 +1,80 @@
+---
+format: pdf
+lang: "es"
+header-includes:
+  - \usepackage{ragged2e}
+  - \usepackage{hyperref}
+---
+
+
+\Centering
+
+\vspace{3cm}
+
+
+\pagenumbering{gobble}
+
+\vspace{5cm}
+
+\large
+LICENCIATURA EN ESTADÍSTICA
+
+\vspace{1cm}
+
+\large
+\Huge
+"Validación de datos"
+\Huge
+\newline
+\vspace{0.3cm}
+
+\normalsize
+Trabajo Práctico 1
+\vspace{1cm}
+
+\vspace{2cm}
+Autores: Tomás Anderson - Alejo Vaschetti 
+
+Docentes: Nora Arnesi - Gino Bartolelli - Cristina Cuesta
+
+20/04/2025
+\normalsize
+
+\newpage
+\hypersetup{linkcolor = black}
+\tableofcontents
+
+
+\newpage
+\pagenumbering{arabic}
+
+\RaggedRight
+\newpage
+
+# Introducción
+
+Es difícil saber el desarrollo esperado de un feto a cierta semana de gestación y por esto se decidió realizar un estudio de investigación clínica multicéntrico internacional para poder estimar e implementar estándares mundiales de crecimiento fetal. Con esta información, los médicos de todo el mundo podrían reducir la morbi-mortalidad perinatal asociada con el crecimiento. En el mismo se reclutan mujeres mayores de edad al momento del estudio que estén cursando su primer trimestre de embarazo, las cuales son seguidas con un esquema de visitas programadas a las 14, 18, 24, 28, 32, 36 y 40 semanas de gestación. En cada visita, se tomaron medidas antropométricas del feto por medio de un ultrasonido.
+
+Para hacerlo moral y éticamente correcto, se realiza una exhaustiva recolección de información de las mujeres, llevada a cabo a lo largo de 17 formularios en papel. Dos de estos aseguran que la mujer sea elegible de acuerdo con los formularios CLIN-SCR y US-SCR, además de contar con el consentimiento del paciente. Particularmente, se tiene especial interés en analizar que el formulario de admisión al estudio no contenga errores. Los datos del formulario son los siguientes:
+
+- Código de país: Número de 3 cifras que representa un país.
+
+- ID del paciente: Se compone de la fecha de nacimiento y las iniciales del paciente en el formato "dd/mm/yyyy-AA".
+
+- Fecha de entrevista: Con formato "dd/mm/yyyy".
+
+- Etnia: Número que representa una etnia, donde 1 es "caucásica", 2 es "asiática", 3 es "africana" y 4 es "otros".
+
+- Elegibilidad CLIN-SCR: 2 si cumple con el criterio y 1 si no.
+
+- Elegibilidad US-SCR: 2 si cumple con el criterio y 1 si no.
+
+- Consentimiento dado: 2 si consiente y 1 si no.
+
+- Número de sujeto: Número de 9 cifras compuesto por el código de país, el código del médico y el orden de ingreso. Este campo se llena únicamente si cumple con los criterios de elegibilidad y consiente.
+
+
+# Objetivos
+
+
+
