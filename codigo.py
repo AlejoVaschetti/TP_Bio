@@ -1,5 +1,5 @@
-# a1) Codigo: que sea un numero                            x != x
-# a2) Codigo del pais que este entre esos codigos
+# a2) Codigo: que sea un numero                            x != x
+# a1) Codigo del pais que este entre esos codigos
 # b1) estando
 # b2) Formato ok
 # b3) Fecha esta ok
@@ -291,15 +291,16 @@ matriz_valores = [a1, a2, b1, b2, b3, c1,c2,c3,bc1,d1,d2,e1,e2,f1,f2,g1,g2,h1,h2
 paciente_limpio = [all(valores) for valores in zip(*matriz_valores)]
 print(sum(paciente_limpio))
 
-
-print(pd.DataFrame(data=[[len(a1)-sum(a1), len(a2)-sum(a2), "-"],
+tabla = pd.DataFrame(data=[[len(a1)-sum(a1), len(a2)-sum(a2), "-"],
                          [len(b1)-sum(b1), len(b2)-sum(b2) + len(df) - sum(fecha_ok), len(ok_años_dif) - sum(ok_años_dif)],
                          [len(c1)-sum(c1), len(c2)-sum(c2) + len(df) - sum(fecha_ok2), len(ok_años_dif) - sum(ok_años_dif)],
                          [len(d1)-sum(d1), len(d2)-sum(d2), "-"],
                          [len(e1)-sum(e1), sum(scr_ok) - len(df) + sum(isna_scr), "-"],
                          [len(f1)-sum(f1), sum(usscr_ok) - len(df) + sum(isna_usscr), "-"],
                          [len(g1)-sum(g1), sum(consent_ok) - len(df) + sum(isna_consent), "-"],
-                         [len(h1)-sum(h1), len(df) - sum(isna_subj) - sum(subj_ok3) ,len(h2)-sum(h2) + sum(paisbien)]]))
+                         [len(h1)-sum(h1), len(df) - sum(isna_subj) - sum(subj_ok3) ,len(h2)-sum(h2) + sum(paisbien)]])
+
+print(tabla)
 
 
 
@@ -311,3 +312,5 @@ print(h4.index(False))
 print(len(set(df.iloc[:,7])))
 
 print("No hay distintos")
+
+tabla.to_csv('tabla.csv', index=False)

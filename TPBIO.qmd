@@ -4,6 +4,7 @@ lang: "es"
 header-includes:
   - \usepackage{ragged2e}
   - \usepackage{hyperref}
+jupyter: python3
 ---
 
 
@@ -76,5 +77,178 @@ Para hacerlo moral y éticamente correcto, se realiza una exhaustiva recolecció
 
 # Objetivos
 
+- Definir reglas que permitan identificar errores en los datos cargados de las pacientes.
+
+- Evaluar dichas reglas en el conjunto de datos.
+
+- Calcular medidas sobre los tipos de errores.
+
+- Obtener el número de participantes con formularios completados válidamente.
+
+# Resolución
+
+## Reglas
+
+Se plantean las siguientas reglas con el objetivo en mente de identificar todo tipo de error pposible en la carga de datos:
 
 
+```{=html}
+<style type="text/css">
+.tg  {border-collapse:collapse;border-spacing:0;}
+.tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+  overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+  font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg .tg-73oq{border-color:#000000;text-align:left;vertical-align:top}
+</style>
+<table class="tg"><thead>
+  <tr>
+    <th class="tg-73oq">Nombre de<br>la regla</th>
+    <th class="tg-73oq">Campos<br>involucrados</th>
+    <th class="tg-73oq">Descripción</th>
+    <th class="tg-73oq">Representación <br>lógica</th>
+  </tr></thead>
+<tbody>
+  <tr>
+    <td class="tg-73oq">A1</td>
+    <td class="tg-73oq">Código de<br>país (a)</td>
+    <td class="tg-73oq">El código de país fue cargado<br></td>
+    <td class="tg-73oq">is.na(a)</td>
+  </tr>
+  <tr>
+    <td class="tg-73oq">A2</td>
+    <td class="tg-73oq">Código de <br>país (a)</td>
+    <td class="tg-73oq">El código de país es un número<br>entre los posibles<br></td>
+    <td class="tg-73oq">!is.na(a) &amp; is.numeric(a) &amp;<br>a pertenece {4, 11, 13, 23, 31, 48, 54, 65, 72, 97}</td>
+  </tr>
+  <tr>
+    <td class="tg-73oq">B1</td>
+    <td class="tg-73oq">Id de paciente (b)</td>
+    <td class="tg-73oq">El id de paciente fue cargado<br></td>
+    <td class="tg-73oq">is.na(b)</td>
+  </tr>
+  <tr>
+    <td class="tg-73oq">B2</td>
+    <td class="tg-73oq">Id de paciente (b)</td>
+    <td class="tg-73oq">El formato del id de<br>paciente es correcto<br></td>
+    <td class="tg-73oq">*</td>
+  </tr>
+  <tr>
+    <td class="tg-73oq">B3</td>
+    <td class="tg-73oq">Id de paciente (b)</td>
+    <td class="tg-73oq">La fecha de nacimiento del <br>paciente es válida<br></td>
+    <td class="tg-73oq">*</td>
+  </tr>
+  <tr>
+    <td class="tg-73oq">C1</td>
+    <td class="tg-73oq">Fecha de la<br>entrevista (c)</td>
+    <td class="tg-73oq">La fecha fue cargada<br></td>
+    <td class="tg-73oq">is.na(c)</td>
+  </tr>
+  <tr>
+    <td class="tg-73oq">C2</td>
+    <td class="tg-73oq">Fecha de la<br>entrevista (c)</td>
+    <td class="tg-73oq">El formato de la fecha cargada<br>es correcto<br></td>
+    <td class="tg-73oq">*</td>
+  </tr>
+  <tr>
+    <td class="tg-73oq">C3</td>
+    <td class="tg-73oq">Fecha de la<br>entrevista (c)</td>
+    <td class="tg-73oq">La fecha de la entrevista<br>es válida<br></td>
+    <td class="tg-73oq">*</td>
+  </tr>
+  <tr>
+    <td class="tg-73oq">BC1</td>
+    <td class="tg-73oq">Id de paciente (b)<br>Fecha de la <br>entrevista (c)</td>
+    <td class="tg-73oq">La paciente es mayor de edad y<br>está en una edad fértil (menor a <br>51 años)<br></td>
+    <td class="tg-73oq">18 &lt;= year(b - c) &lt;= 50</td>
+  </tr>
+  <tr>
+    <td class="tg-73oq">D1</td>
+    <td class="tg-73oq">Grupo étnico (d)</td>
+    <td class="tg-73oq">El grupo étnico fue cargado<br></td>
+    <td class="tg-73oq">is.na(d)</td>
+  </tr>
+  <tr>
+    <td class="tg-73oq">D2</td>
+    <td class="tg-73oq">Grupo étnico (d)</td>
+    <td class="tg-73oq">El grupo étnico es un número<br>entre los posibles<br></td>
+    <td class="tg-73oq">!is.na(d) &amp; is.numeric(d) &amp;<br>d pertenece {1, 2, 3, 4}</td>
+  </tr>
+  <tr>
+    <td class="tg-73oq">E1</td>
+    <td class="tg-73oq">Formulario <br>CLIN-SCR (e)</td>
+    <td class="tg-73oq">El formulario fue cargado<br></td>
+    <td class="tg-73oq">is.na(e)</td>
+  </tr>
+  <tr>
+    <td class="tg-73oq">E2</td>
+    <td class="tg-73oq">Formulario <br>CLIN-SCR (e)</td>
+    <td class="tg-73oq">La elegibilidad por el formulario<br>es un número entre los posibles<br></td>
+    <td class="tg-73oq">!is.na(e) &amp; is.numeric(e) &amp;<br>x pertenece {1, 2}</td>
+  </tr>
+  <tr>
+    <td class="tg-73oq">F1</td>
+    <td class="tg-73oq">Formulario <br>US-SCR (f)</td>
+    <td class="tg-73oq">El formulario fue cargado<br></td>
+    <td class="tg-73oq">is.na(f)</td>
+  </tr>
+  <tr>
+    <td class="tg-73oq">F2</td>
+    <td class="tg-73oq">Formulario <br>US-SCR (f)</td>
+    <td class="tg-73oq">La elegibilidad por el formulario<br>es un número entre los posibles<br></td>
+    <td class="tg-73oq">!is.na(f) &amp; is.numeric(f) &amp;<br>x pertenece {1, 2}</td>
+  </tr>
+  <tr>
+    <td class="tg-73oq">G1</td>
+    <td class="tg-73oq">Formulario de<br>consentimiento (g)</td>
+    <td class="tg-73oq">El formulario fue cargado<br></td>
+    <td class="tg-73oq">is.na(f)</td>
+  </tr>
+  <tr>
+    <td class="tg-73oq">G2</td>
+    <td class="tg-73oq">Formulario de<br>consentimiento (g)</td>
+    <td class="tg-73oq">El consentimiento por el formulario<br>es un número entre los posibles<br></td>
+    <td class="tg-73oq">!is.na(f) &amp; is.numeric(f) &amp;<br>x pertenece {1, 2}</td>
+  </tr>
+  <tr>
+    <td class="tg-73oq">H1</td>
+    <td class="tg-73oq">Número de <br>sujeto (h)<br>CLIN-SCR (e)<br>US-SCR (f)<br>Consentimiento (g)</td>
+    <td class="tg-73oq">El número de sujeto debería ser<br>cargado pero no lo fue<br></td>
+    <td class="tg-73oq">is.na(h) &amp; c(e, f, g) == c(2, 2, 2)</td>
+  </tr>
+  <tr>
+    <td class="tg-73oq">H2</td>
+    <td class="tg-73oq">Número de <br>sujeto (h)<br>CLIN-SCR (e)<br>US-SCR (f)<br>Consentimiento (g)</td>
+    <td class="tg-73oq">El número de sujeto no debería ser<br>asignado y cargado pero lo fue<br></td>
+    <td class="tg-73oq">!is.na(h) &amp; c(e, f, g) != c(2, 2, 2)</td>
+  </tr>
+  <tr>
+    <td class="tg-73oq">H3</td>
+    <td class="tg-73oq">Número de <br>sujeto (h)</td>
+    <td class="tg-73oq">El número de sujeto está<br>conformado por 9 números<br></td>
+    <td class="tg-73oq">!is.na(h) &amp; is.numeric(h) &amp;<br>floor(log10(h)) == 8</td>
+  </tr>
+  <tr>
+    <td class="tg-73oq">H4</td>
+    <td class="tg-73oq">Número de <br>sujeto (h)</td>
+    <td class="tg-73oq">El número de sujeto es único<br></td>
+    <td class="tg-73oq">!is.na(h) &amp; sum(h == H) == 1</td>
+  </tr>
+  <tr>
+    <td class="tg-73oq">H5</td>
+    <td class="tg-73oq">Número de <br>sujeto (h)<br>Código de país (a)</td>
+    <td class="tg-73oq">Los primeros tres dígitos del<br>número del sujeto corresponden<br>con el código de país cargado<br>de la paciente</td>
+    <td class="tg-73oq">*</td>
+  </tr>
+</tbody></table>
+```
+
+## Evaluación de las reglas
+
+```{r, echo = FALSE}
+library(readr)
+library(kableExtra)
+tabla <- read_csv("tabla.csv")
+kable(tabla, col.names = c("","",""), format = "html")
+```
