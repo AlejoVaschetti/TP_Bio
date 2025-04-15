@@ -250,5 +250,7 @@ Se plantean las siguientas reglas con el objetivo en mente de identificar todo t
 library(readr)
 library(kableExtra)
 tabla <- read_csv("tabla.csv")
-kable(tabla, col.names = c("","",""), format = "html")
+tabla = cbind(nombre = c("Código de país", "Id del paciente", "Fecha de la entrevista",
+                "Grupo étnico", "CLIN-SCR", "US-SCR", "Consentimiento", "Número de sujeto"), tabla)
+kable(tabla, col.names = c("Campo","Existencia","Rango", "Inconsistencia"), format = "pipe", align = c("l", "r", "r", "r")) %>% kable_material(c("striped", "hover"))
 ```
