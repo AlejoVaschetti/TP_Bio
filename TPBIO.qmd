@@ -4,7 +4,6 @@ lang: "es"
 header-includes:
   - \usepackage{ragged2e}
   - \usepackage{hyperref}
-jupyter: python3
 ---
 
 
@@ -52,9 +51,11 @@ Docentes: Nora Arnesi - Gino Bartolelli - Cristina Cuesta
 \RaggedRight
 \newpage
 
+\justify
+
 # Introducción
 
-Es difícil saber el desarrollo esperado de un feto a cierta semana de gestación y por esto se decidió realizar un estudio de investigación clínica multicéntrico internacional para poder estimar e implementar estándares mundiales de crecimiento fetal. Con esta información, los médicos de todo el mundo podrían reducir la morbi-mortalidad perinatal asociada con el crecimiento. En el mismo se reclutan mujeres mayores de edad al momento del estudio que estén cursando su primer trimestre de embarazo, las cuales son seguidas con un esquema de visitas programadas a las 14, 18, 24, 28, 32, 36 y 40 semanas de gestación. En cada visita, se tomaron medidas antropométricas del feto por medio de un ultrasonido.
+  Es difícil saber el desarrollo esperado de un feto a cierta semana de gestación y por esto se decidió realizar un estudio de investigación clínica multicéntrico internacional para poder estimar e implementar estándares mundiales de crecimiento fetal. Con esta información, los médicos de todo el mundo podrían reducir la morbi-mortalidad perinatal asociada con el crecimiento. En el mismo se reclutan mujeres mayores de edad al momento del estudio que estén cursando su primer trimestre de embarazo, las cuales son seguidas con un esquema de visitas programadas a las 14, 18, 24, 28, 32, 36 y 40 semanas de gestación. En cada visita, se tomaron medidas antropométricas del feto por medio de un ultrasonido.
 
 Para hacerlo moral y éticamente correcto, se realiza una exhaustiva recolección de información de las mujeres, llevada a cabo a lo largo de 17 formularios en papel. Dos de estos aseguran que la mujer sea elegible de acuerdo con los formularios CLIN-SCR y US-SCR, además de contar con el consentimiento del paciente. Particularmente, se tiene especial interés en analizar que el formulario de admisión al estudio no contenga errores. Los datos del formulario son los siguientes:
 
@@ -89,8 +90,19 @@ Para hacerlo moral y éticamente correcto, se realiza una exhaustiva recolecció
 
 ## Reglas
 
-Se plantean las siguientas reglas con el objetivo en mente de identificar todo tipo de error pposible en la carga de datos:
+  Las reglas se pueden clasificar en tres tipos de errores no mutuamente excluyentes:
 
+- Existencia: El valor es faltante o existe cuando no debería serlo.
+
+- Rango: Toma un valor distinto a los válidos.
+
+- Consistencia: El valor no es congruente respecto del valor de otro/s campo/s.
+
+Con todo esto en consideración se plantean las siguientas reglas con el objetivo de identificar todo tipo de error posible en la carga de datos:
+
+\begin{center}
+Tabla 1: Definición de reglas
+\end{center}
 
 ```{=html}
 <style type="text/css">
@@ -100,6 +112,7 @@ Se plantean las siguientas reglas con el objetivo en mente de identificar todo t
 .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
   font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
 .tg .tg-73oq{border-color:#000000;text-align:left;vertical-align:top}
+.tg .tg-0lax{text-align:left;vertical-align:top}
 </style>
 <table class="tg"><thead>
   <tr>
@@ -107,6 +120,7 @@ Se plantean las siguientas reglas con el objetivo en mente de identificar todo t
     <th class="tg-73oq">Campos<br>involucrados</th>
     <th class="tg-73oq">Descripción</th>
     <th class="tg-73oq">Representación <br>lógica</th>
+    <th class="tg-0lax">Clasificación</th>
   </tr></thead>
 <tbody>
   <tr>
@@ -114,143 +128,194 @@ Se plantean las siguientas reglas con el objetivo en mente de identificar todo t
     <td class="tg-73oq">Código de<br>país (a)</td>
     <td class="tg-73oq">El código de país fue cargado<br></td>
     <td class="tg-73oq">is.na(a)</td>
+    <td class="tg-0lax">Existencia</td>
   </tr>
   <tr>
     <td class="tg-73oq">A2</td>
     <td class="tg-73oq">Código de <br>país (a)</td>
     <td class="tg-73oq">El código de país es un número<br>entre los posibles<br></td>
-    <td class="tg-73oq">!is.na(a) &amp; is.numeric(a) &amp;<br>a pertenece {4, 11, 13, 23, 31, 48, 54, 65, 72, 97}</td>
+    <td class="tg-73oq">!is.na(a) &amp; is.numeric(a) &amp;<br>a ∈ {4, 11, 13, 23, 31, 48, 54, 65, 72, 97}</td>
+    <td class="tg-0lax">Rango</td>
   </tr>
   <tr>
     <td class="tg-73oq">B1</td>
     <td class="tg-73oq">Id de paciente (b)</td>
     <td class="tg-73oq">El id de paciente fue cargado<br></td>
     <td class="tg-73oq">is.na(b)</td>
+    <td class="tg-0lax">Existencia</td>
   </tr>
   <tr>
     <td class="tg-73oq">B2</td>
     <td class="tg-73oq">Id de paciente (b)</td>
     <td class="tg-73oq">El formato del id de<br>paciente es correcto<br></td>
-    <td class="tg-73oq">*</td>
+    <td class="tg-73oq">Ver anexo*</td>
+    <td class="tg-0lax">Rango</td>
   </tr>
   <tr>
     <td class="tg-73oq">B3</td>
     <td class="tg-73oq">Id de paciente (b)</td>
     <td class="tg-73oq">La fecha de nacimiento del <br>paciente es válida<br></td>
-    <td class="tg-73oq">*</td>
+    <td class="tg-73oq">Ver anexo*</td>
+    <td class="tg-0lax">Rango</td>
   </tr>
   <tr>
     <td class="tg-73oq">C1</td>
     <td class="tg-73oq">Fecha de la<br>entrevista (c)</td>
     <td class="tg-73oq">La fecha fue cargada<br></td>
     <td class="tg-73oq">is.na(c)</td>
+    <td class="tg-0lax">Existencia</td>
   </tr>
   <tr>
     <td class="tg-73oq">C2</td>
     <td class="tg-73oq">Fecha de la<br>entrevista (c)</td>
     <td class="tg-73oq">El formato de la fecha cargada<br>es correcto<br></td>
-    <td class="tg-73oq">*</td>
+    <td class="tg-73oq">Ver anexo*</td>
+    <td class="tg-0lax">Rango</td>
   </tr>
   <tr>
     <td class="tg-73oq">C3</td>
     <td class="tg-73oq">Fecha de la<br>entrevista (c)</td>
     <td class="tg-73oq">La fecha de la entrevista<br>es válida<br></td>
-    <td class="tg-73oq">*</td>
+    <td class="tg-73oq">Ver anexo*</td>
+    <td class="tg-0lax">Rango</td>
   </tr>
   <tr>
     <td class="tg-73oq">BC1</td>
     <td class="tg-73oq">Id de paciente (b)<br>Fecha de la <br>entrevista (c)</td>
     <td class="tg-73oq">La paciente es mayor de edad y<br>está en una edad fértil (menor a <br>51 años)<br></td>
     <td class="tg-73oq">18 &lt;= year(b - c) &lt;= 50</td>
+    <td class="tg-0lax">Consistencia</td>
   </tr>
   <tr>
     <td class="tg-73oq">D1</td>
     <td class="tg-73oq">Grupo étnico (d)</td>
     <td class="tg-73oq">El grupo étnico fue cargado<br></td>
     <td class="tg-73oq">is.na(d)</td>
+    <td class="tg-0lax">Existencia</td>
   </tr>
   <tr>
     <td class="tg-73oq">D2</td>
     <td class="tg-73oq">Grupo étnico (d)</td>
     <td class="tg-73oq">El grupo étnico es un número<br>entre los posibles<br></td>
-    <td class="tg-73oq">!is.na(d) &amp; is.numeric(d) &amp;<br>d pertenece {1, 2, 3, 4}</td>
+    <td class="tg-73oq">!is.na(d) &amp; is.numeric(d) &amp;<br>d ∈ {1, 2, 3, 4}</td>
+    <td class="tg-0lax">Rango</td>
   </tr>
   <tr>
     <td class="tg-73oq">E1</td>
     <td class="tg-73oq">Formulario <br>CLIN-SCR (e)</td>
     <td class="tg-73oq">El formulario fue cargado<br></td>
     <td class="tg-73oq">is.na(e)</td>
+    <td class="tg-0lax">Existencia</td>
   </tr>
   <tr>
     <td class="tg-73oq">E2</td>
     <td class="tg-73oq">Formulario <br>CLIN-SCR (e)</td>
     <td class="tg-73oq">La elegibilidad por el formulario<br>es un número entre los posibles<br></td>
-    <td class="tg-73oq">!is.na(e) &amp; is.numeric(e) &amp;<br>x pertenece {1, 2}</td>
+    <td class="tg-73oq">!is.na(e) &amp; is.numeric(e) &amp;<br>x ∈ {1, 2}</td>
+    <td class="tg-0lax">Rango</td>
   </tr>
   <tr>
     <td class="tg-73oq">F1</td>
     <td class="tg-73oq">Formulario <br>US-SCR (f)</td>
     <td class="tg-73oq">El formulario fue cargado<br></td>
     <td class="tg-73oq">is.na(f)</td>
+    <td class="tg-0lax">Existencia</td>
   </tr>
   <tr>
     <td class="tg-73oq">F2</td>
     <td class="tg-73oq">Formulario <br>US-SCR (f)</td>
     <td class="tg-73oq">La elegibilidad por el formulario<br>es un número entre los posibles<br></td>
-    <td class="tg-73oq">!is.na(f) &amp; is.numeric(f) &amp;<br>x pertenece {1, 2}</td>
+    <td class="tg-73oq">!is.na(f) &amp; is.numeric(f) &amp;<br>x ∈ {1, 2}</td>
+    <td class="tg-0lax">Rango</td>
   </tr>
   <tr>
     <td class="tg-73oq">G1</td>
     <td class="tg-73oq">Formulario de<br>consentimiento (g)</td>
     <td class="tg-73oq">El formulario fue cargado<br></td>
     <td class="tg-73oq">is.na(f)</td>
+    <td class="tg-0lax">Existencia</td>
   </tr>
   <tr>
     <td class="tg-73oq">G2</td>
     <td class="tg-73oq">Formulario de<br>consentimiento (g)</td>
     <td class="tg-73oq">El consentimiento por el formulario<br>es un número entre los posibles<br></td>
-    <td class="tg-73oq">!is.na(f) &amp; is.numeric(f) &amp;<br>x pertenece {1, 2}</td>
+    <td class="tg-73oq">!is.na(f) &amp; is.numeric(f) &amp;<br>x ∈ {1, 2}</td>
+    <td class="tg-0lax">Rango</td>
   </tr>
   <tr>
     <td class="tg-73oq">H1</td>
     <td class="tg-73oq">Número de <br>sujeto (h)<br>CLIN-SCR (e)<br>US-SCR (f)<br>Consentimiento (g)</td>
     <td class="tg-73oq">El número de sujeto debería ser<br>cargado pero no lo fue<br></td>
     <td class="tg-73oq">is.na(h) &amp; c(e, f, g) == c(2, 2, 2)</td>
+    <td class="tg-0lax">Existencia y <br>consistencia</td>
   </tr>
   <tr>
     <td class="tg-73oq">H2</td>
     <td class="tg-73oq">Número de <br>sujeto (h)<br>CLIN-SCR (e)<br>US-SCR (f)<br>Consentimiento (g)</td>
     <td class="tg-73oq">El número de sujeto no debería ser<br>asignado y cargado pero lo fue<br></td>
     <td class="tg-73oq">!is.na(h) &amp; c(e, f, g) != c(2, 2, 2)</td>
+    <td class="tg-0lax">Existencia y <br>consistencia</td>
   </tr>
   <tr>
     <td class="tg-73oq">H3</td>
     <td class="tg-73oq">Número de <br>sujeto (h)</td>
     <td class="tg-73oq">El número de sujeto está<br>conformado por 9 números<br></td>
     <td class="tg-73oq">!is.na(h) &amp; is.numeric(h) &amp;<br>floor(log10(h)) == 8</td>
+    <td class="tg-0lax">Rango</td>
   </tr>
   <tr>
     <td class="tg-73oq">H4</td>
     <td class="tg-73oq">Número de <br>sujeto (h)</td>
     <td class="tg-73oq">El número de sujeto es único<br></td>
     <td class="tg-73oq">!is.na(h) &amp; sum(h == H) == 1</td>
+    <td class="tg-0lax">Consistencia</td>
   </tr>
   <tr>
     <td class="tg-73oq">H5</td>
     <td class="tg-73oq">Número de <br>sujeto (h)<br>Código de país (a)</td>
     <td class="tg-73oq">Los primeros tres dígitos del<br>número del sujeto corresponden<br>con el código de país cargado<br>de la paciente</td>
-    <td class="tg-73oq">*</td>
+    <td class="tg-73oq">Ver anexo*</td>
+    <td class="tg-0lax">Consistencia</td>
   </tr>
 </tbody></table>
 ```
 
+
 ## Evaluación de las reglas
 
-```{r, echo = FALSE}
+Se crea un algoritmo para evaluar el cumplimiento de las reglas anteriormente planteadas, identificar a los individuos con errores y clasificar qué tipo de error se está cometiendo. Se tiene la información del formulario de admisión de 1000 pacientes con las que se procede a utilizar dicho algoritmo.
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE, tab.cap="Cantidad de errores por regla"}
 library(readr)
 library(kableExtra)
-tabla <- read_csv("tabla.csv")
-tabla = cbind(nombre = c("Código de país", "Id del paciente", "Fecha de la entrevista",
-                "Grupo étnico", "CLIN-SCR", "US-SCR", "Consentimiento", "Número de sujeto"), tabla)
-kable(tabla, col.names = c("Campo","Existencia","Rango", "Inconsistencia"), format = "pipe", align = c("l", "r", "r", "r")) %>% kable_material(c("striped", "hover"))
+reglas <- read_csv("reglas.csv")
+kable(reglas, format = "pipe", col.names = NULL)
+
 ```
+El 59% de las reglas planteadas no fueron incumplidas, en cambio, para las que sí lo fueron se registra un alto número de errores. El error más común se encuentra en la falta del *número de sujeto* del paciente cuando este cumplía todos los rquisitos de elegibilidad y consentimiento. Este fallo puede ser dado por error en no asignar un *número de sujeto* cuando se debería o que algunos de los requisitos anteriores no se cumplía y por lo tanto fueron mal cargados.
+
+Sumando los errores de cada campo y separándolos por el tipo de error se obtiene:
+
+\newpage
+
+```{r, echo = FALSE, warning=FALSE, message=FALSE, tab.cap="Errores clasificados"}
+tabla <- read_csv("tabla.csv")
+tabla <-  cbind(nombre = c("Código de país", "Id del paciente", "Fecha de la entrevista",
+                "Grupo étnico", "CLIN-SCR", "US-SCR", "Consentimiento", "Número de sujeto"), tabla)
+kable(tabla, col.names = c("Campo","Existencia","Rango", "Consistencia"), format = "pipe", align = c("l", "r", "r", "r")) %>% kable_material(c("striped", "hover"))
+
+```
+
+Todos estos fallos llevan a 336 pacientes a tener algún tipo de inconsistencias en los datos cargados del formulario de amisión, dejando un total de 664 pacientes con sus datos en orden. El campo con más errores resulta ser el *número de sujeto* con un total de 194. Como estos están relacionados con el valor en otros campos, la cantidad de errores en estos otros se ve aumentada.
+
+# Conclusiones
+
+  Un 33,6% de las pacientes presentaron al menos un error en los datos cargados del formualario de admisión. Esto representa un gran problema ya que puede ser una cuestión sistemática. Dado los errores más comunes, se recomienda hacer un esfuerzo mayor en asignar y cargar bien el grupo étnico de las pacientes, prestar mayor atención al cargar el año de la entrevista y hacer mayor incapié al asignar el número del sujeto únicamente en los casos requeridos, por lo tanto debería tenerse mayor cuidado con la certificación de los formularios de elegibilidad.
+
+\newpage
+
+# Anexo
+
+  *Hay representaciones lógicas que son complicadas de describir y dependen del software que se use por lo tanto el código usado para la realización de este trabajo se encuentra en los archivos codigo.py y TPBIO.qmd en el siguiente link:*
+
+https://github.com/AlejoVaschetti/TP_Bio
