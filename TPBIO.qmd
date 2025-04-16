@@ -113,6 +113,8 @@ Tabla 1: Definición de reglas
   font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
 .tg .tg-73oq{border-color:#000000;text-align:left;vertical-align:top}
 .tg .tg-0lax{text-align:left;vertical-align:top}
+.tg .tg-0a7q{border-color:#000000;text-align:left;vertical-align:middle}
+.tg .tg-kvxc{border-color:#000000;text-align:left;vertical-align:bottom}
 </style>
 <table class="tg"><thead>
   <tr>
@@ -127,28 +129,28 @@ Tabla 1: Definición de reglas
     <td class="tg-73oq">A1</td>
     <td class="tg-73oq">Código de<br>país (a)</td>
     <td class="tg-73oq">El código de país fue cargado<br></td>
-    <td class="tg-73oq">is.na(a)</td>
+    <td class="tg-0a7q">a != a</td>
     <td class="tg-0lax">Existencia</td>
   </tr>
   <tr>
     <td class="tg-73oq">A2</td>
     <td class="tg-73oq">Código de <br>país (a)</td>
     <td class="tg-73oq">El código de país es un número<br>entre los posibles<br></td>
-    <td class="tg-73oq">!is.na(a) &amp; is.numeric(a) &amp;<br>a ∈ {4, 11, 13, 23, 31, 48, 54, 65, 72, 97}</td>
+    <td class="tg-0a7q">a == a &amp; a no pertenece {4, 11, 13, 23, 31,<br> 48, 54, 65, 72, 97}</td>
     <td class="tg-0lax">Rango</td>
   </tr>
   <tr>
     <td class="tg-73oq">B1</td>
     <td class="tg-73oq">Id de paciente (b)</td>
     <td class="tg-73oq">El id de paciente fue cargado<br></td>
-    <td class="tg-73oq">is.na(b)</td>
+    <td class="tg-0a7q">b != b</td>
     <td class="tg-0lax">Existencia</td>
   </tr>
   <tr>
     <td class="tg-73oq">B2</td>
     <td class="tg-73oq">Id de paciente (b)</td>
     <td class="tg-73oq">El formato del id de<br>paciente es correcto<br></td>
-    <td class="tg-73oq">Ver anexo*</td>
+    <td class="tg-kvxc">Ver anexo*</td>
     <td class="tg-0lax">Rango</td>
   </tr>
   <tr>
@@ -162,7 +164,7 @@ Tabla 1: Definición de reglas
     <td class="tg-73oq">C1</td>
     <td class="tg-73oq">Fecha de la<br>entrevista (c)</td>
     <td class="tg-73oq">La fecha fue cargada<br></td>
-    <td class="tg-73oq">is.na(c)</td>
+    <td class="tg-0a7q">c != c</td>
     <td class="tg-0lax">Existencia</td>
   </tr>
   <tr>
@@ -183,98 +185,98 @@ Tabla 1: Definición de reglas
     <td class="tg-73oq">BC1</td>
     <td class="tg-73oq">Id de paciente (b)<br>Fecha de la <br>entrevista (c)</td>
     <td class="tg-73oq">La paciente es mayor de edad y<br>está en una edad fértil (menor a <br>51 años)<br></td>
-    <td class="tg-73oq">18 &lt;= year(b - c) &lt;= 50</td>
+    <td class="tg-0a7q">18 &gt; year(b - c)  &amp;<br> year(b - c) &gt; 50</td>
     <td class="tg-0lax">Consistencia</td>
   </tr>
   <tr>
     <td class="tg-73oq">D1</td>
     <td class="tg-73oq">Grupo étnico (d)</td>
     <td class="tg-73oq">El grupo étnico fue cargado<br></td>
-    <td class="tg-73oq">is.na(d)</td>
+    <td class="tg-0a7q">d != d</td>
     <td class="tg-0lax">Existencia</td>
   </tr>
   <tr>
     <td class="tg-73oq">D2</td>
     <td class="tg-73oq">Grupo étnico (d)</td>
     <td class="tg-73oq">El grupo étnico es un número<br>entre los posibles<br></td>
-    <td class="tg-73oq">!is.na(d) &amp; is.numeric(d) &amp;<br>d ∈ {1, 2, 3, 4}</td>
+    <td class="tg-0a7q">d == d  &amp; d no pertenece {1, 2, 3, 4}</td>
     <td class="tg-0lax">Rango</td>
   </tr>
   <tr>
     <td class="tg-73oq">E1</td>
     <td class="tg-73oq">Formulario <br>CLIN-SCR (e)</td>
     <td class="tg-73oq">El formulario fue cargado<br></td>
-    <td class="tg-73oq">is.na(e)</td>
+    <td class="tg-0a7q">e != e</td>
     <td class="tg-0lax">Existencia</td>
   </tr>
   <tr>
     <td class="tg-73oq">E2</td>
     <td class="tg-73oq">Formulario <br>CLIN-SCR (e)</td>
     <td class="tg-73oq">La elegibilidad por el formulario<br>es un número entre los posibles<br></td>
-    <td class="tg-73oq">!is.na(e) &amp; is.numeric(e) &amp;<br>x ∈ {1, 2}</td>
+    <td class="tg-0a7q">e == e &amp; e no pertenece {1, 2}</td>
     <td class="tg-0lax">Rango</td>
   </tr>
   <tr>
     <td class="tg-73oq">F1</td>
     <td class="tg-73oq">Formulario <br>US-SCR (f)</td>
     <td class="tg-73oq">El formulario fue cargado<br></td>
-    <td class="tg-73oq">is.na(f)</td>
+    <td class="tg-0a7q">f != f</td>
     <td class="tg-0lax">Existencia</td>
   </tr>
   <tr>
     <td class="tg-73oq">F2</td>
     <td class="tg-73oq">Formulario <br>US-SCR (f)</td>
     <td class="tg-73oq">La elegibilidad por el formulario<br>es un número entre los posibles<br></td>
-    <td class="tg-73oq">!is.na(f) &amp; is.numeric(f) &amp;<br>x ∈ {1, 2}</td>
+    <td class="tg-0a7q">f == f &amp; f no pertenece {1, 2}</td>
     <td class="tg-0lax">Rango</td>
   </tr>
   <tr>
     <td class="tg-73oq">G1</td>
     <td class="tg-73oq">Formulario de<br>consentimiento (g)</td>
     <td class="tg-73oq">El formulario fue cargado<br></td>
-    <td class="tg-73oq">is.na(f)</td>
+    <td class="tg-0a7q">g != g</td>
     <td class="tg-0lax">Existencia</td>
   </tr>
   <tr>
     <td class="tg-73oq">G2</td>
     <td class="tg-73oq">Formulario de<br>consentimiento (g)</td>
     <td class="tg-73oq">El consentimiento por el formulario<br>es un número entre los posibles<br></td>
-    <td class="tg-73oq">!is.na(f) &amp; is.numeric(f) &amp;<br>x ∈ {1, 2}</td>
+    <td class="tg-0a7q">g == g &amp; g no pertenece {1, 2}</td>
     <td class="tg-0lax">Rango</td>
   </tr>
   <tr>
     <td class="tg-73oq">H1</td>
     <td class="tg-73oq">Número de <br>sujeto (h)<br>CLIN-SCR (e)<br>US-SCR (f)<br>Consentimiento (g)</td>
     <td class="tg-73oq">El número de sujeto debería ser<br>cargado pero no lo fue<br></td>
-    <td class="tg-73oq">is.na(h) &amp; c(e, f, g) == c(2, 2, 2)</td>
+    <td class="tg-0a7q">h != h &amp; e == 2 &amp;<br>f == 2 &amp; g == 2</td>
     <td class="tg-0lax">Existencia y <br>consistencia</td>
   </tr>
   <tr>
     <td class="tg-73oq">H2</td>
     <td class="tg-73oq">Número de <br>sujeto (h)<br>CLIN-SCR (e)<br>US-SCR (f)<br>Consentimiento (g)</td>
     <td class="tg-73oq">El número de sujeto no debería ser<br>asignado y cargado pero lo fue<br></td>
-    <td class="tg-73oq">!is.na(h) &amp; c(e, f, g) != c(2, 2, 2)</td>
+    <td class="tg-0a7q">h == h &amp; <br>(e == 1 or f == 1 or g == 1)</td>
     <td class="tg-0lax">Existencia y <br>consistencia</td>
   </tr>
   <tr>
     <td class="tg-73oq">H3</td>
     <td class="tg-73oq">Número de <br>sujeto (h)</td>
     <td class="tg-73oq">El número de sujeto está<br>conformado por 9 números<br></td>
-    <td class="tg-73oq">!is.na(h) &amp; is.numeric(h) &amp;<br>floor(log10(h)) == 8</td>
+    <td class="tg-kvxc">not( (len(str(h)) == 9 and<br>str(h).isnumeric()) or h != h)</td>
     <td class="tg-0lax">Rango</td>
   </tr>
   <tr>
     <td class="tg-73oq">H4</td>
     <td class="tg-73oq">Número de <br>sujeto (h)</td>
     <td class="tg-73oq">El número de sujeto es único<br></td>
-    <td class="tg-73oq">!is.na(h) &amp; sum(h == H) == 1</td>
+    <td class="tg-kvxc">sum(i == h for i in H) =&gt; 2</td>
     <td class="tg-0lax">Consistencia</td>
   </tr>
   <tr>
     <td class="tg-73oq">H5</td>
     <td class="tg-73oq">Número de <br>sujeto (h)<br>Código de país (a)</td>
     <td class="tg-73oq">Los primeros tres dígitos del<br>número del sujeto corresponden<br>con el código de país cargado<br>de la paciente</td>
-    <td class="tg-73oq">Ver anexo*</td>
+    <td class="tg-0a7q">int(h[0:3]) != a</td>
     <td class="tg-0lax">Consistencia</td>
   </tr>
 </tbody></table>

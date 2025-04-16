@@ -36,7 +36,7 @@ a1 = isna_country
 r1num = {int(s) for s in re.findall('\d+',dd.iloc[0,-1])}
 countrycode_nice = list()
 for i in range(len(df)):
-    countrycode_nice.append(r1num.isdisjoint([df.iloc[i,0]]))
+    countrycode_nice.append(r1num.isdisjoint([df.iloc[i,0]]) and df.iloc[i,0] == df.iloc[i,0])
 
 print(f"Hay {sum(countrycode_nice)} mujeres con un código de país incorrecto")
 
@@ -306,6 +306,8 @@ paciente_limpio = [all(valores) for valores in zip(*matriz_valores)]
 print(sum(paciente_limpio))
 
 print(len(set(df.iloc[:,7])) - sum(isna_subj) - 1)
+for h in df.iloc[:,7]:
+    sum(i == h for i in df.iloc[:,7])
 
 tabla = pd.DataFrame(data=[[len(a1)-sum(a1), len(a2)-sum(a2), sum(paisbien)],
                          [len(b1)-sum(b1), len(b2)-sum(b2) + len(df) - sum(fecha_ok), len(ok_años_dif) - sum(ok_años_dif)],
